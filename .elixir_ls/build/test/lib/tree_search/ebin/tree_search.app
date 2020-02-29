@@ -1,0 +1,10 @@
+{application,tree_search,
+             [{applications,[kernel,stdlib,elixir,logger]},
+              {description,"tree_search"},
+              {modules,['Elixir.TreeSearch','Elixir.TreeSearch.GreedySearch',
+                        'Elixir.TreeSearch.SearchConfig',
+                        'Elixir.TreeSearch.SearchState',
+                        'Elixir.TreeSearch.SearchUtility',
+                        'Elixir.TreeSearch.Tree']},
+              {registered,[]},
+              {vsn,"0.1.0"}]}.
