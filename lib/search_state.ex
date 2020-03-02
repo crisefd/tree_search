@@ -13,6 +13,7 @@ defmodule TreeSearch.SearchState do
     board: board,
     visited: set,
     targets_orders: [[atom]],
+    nodes_to_expand: [tree],
     solution: [path: [{integer, integer}], cost: integer]
   }
 
@@ -22,6 +23,7 @@ defmodule TreeSearch.SearchState do
             tree: nil,
             board: nil,
             visited: MapSet.new(),
+            nodes_to_expand: [],
             solution: [path: [], cost: 0],
             targets_orders: SearchUtility.permute(@targets)
 

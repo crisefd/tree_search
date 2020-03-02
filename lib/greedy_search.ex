@@ -27,15 +27,19 @@ defmodule TreeSearch.GreedySearch do
   end
 
 
-  def do_search(tree = %Tree{children: []}, target, state, config) do
-    new_tree = expand(tree, state, config, target)
+  def do_search(tree = %Tree{children: []}, target, state = %State{nodes_to_expand: nodes}, config) do
+    nodes_to_expand = tree_insert(nodes, tree)
+    new_tree =
+      nodes_to_expand
+      |> List.first
+      |> expand(state, config, target)
     new_visited =
       Enum.reduce(new_tree,
                  state.visited,
                  fn(%Tree{value: value}, visited) ->
                     MapSet.put(visited, value)
                  end)
-
+      %{state | visited: visited, nodes_to_expand: tl(nodes_to_expand)}
   end
 
 
@@ -86,16 +90,16 @@ defmodule TreeSearch.GreedySearch do
         _ -> distance * weigths_sum
      end
 
+  def tree_insert([], new_tree), do: [new_tree]
 
-
-  def tree_insert_helper(tree_stack, new_tree) do
+  def tree_insert(trees, new_tree) do
     i =
-      Enum.find_index(tree_stack, fn(tree) ->
+      Enum.find_index(trees, fn(tree) ->
         new_tree.estimated_cost <= tree.estimated_cost
       end)
-    Enum.take(tree_stack, i + 1) ++
+    Enum.take(trees, i + 1) ++
     [new_tree] ++
-    Enum.slice(tree_stack, i..-1)
+    Enum.slice(trees, i..-1)
   end
 
 
